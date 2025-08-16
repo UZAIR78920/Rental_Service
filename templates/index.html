@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicle Rental System</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='style.css') }}">
+</head>
+<body>
+    <h1>🚗 Vehicle Rental System</h1>
+
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    <h2>Vehicles</h2>
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Model</th>
+            <th>Number Plate</th>
+            <th>Price/Day</th>
+            <th>Availability</th>
+        </tr>
+        {% for v in vehicles %}
+        <tr>
+            <td>{{ v.vtype }}</td>
+            <td>{{ v.model }}</td>
+            <td>{{ v.no_plate }}</td>
+            <td>{{ v.price_per_day }}</td>
+            <td>{{ v.availability }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <h2>Add Vehicle</h2>
+    <form method="POST" action="/add_vehicle">
+        <input type="text" name="vtype" placeholder="Type" required>
+        <input type="text" name="model" placeholder="Model" required>
+        <input type="text" name="no_plate" placeholder="Number Plate" required>
+        <input type="number" name="price" placeholder="Price/Day" required>
+        <select name="availability">
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+        </select>
+        <button type="submit">Add</button>
+    </form>
+    <hr>
+
+    <h2>Remove Vehicle</h2>
+    <form action="/remove_vehicle" method="post">
+      <input type="text" name="no_plate" placeholder="Number Plate" required>
+      <button type="submit">Remove</button>
+    </form>
+
+    <hr>
+
+    <h2>Update Price</h2>
+    <form action="/update_price" method="post">
+      <input type="text" name="no_plate" placeholder="Number Plate" required>
+      <input type="number" name="price" placeholder="New Price" required>
+      <button type="submit">Update Price</button>
+    </form>
+
+    
+    <h2>Book Vehicle</h2>
+    <form method="POST" action="/book_vehicle">
+        <input type="text" name="customer" placeholder="Customer Name" required>
+        <input type="text" name="no_plate" placeholder="Number Plate" required>
+        <input type="number" name="days" placeholder="Rental Days" required>
+        <button type="submit">Book</button>
+    </form>
+
+    <h2>Return Vehicle</h2>
+    <form method="POST" action="/return_vehicle">
+        <input type="text" name="no_plate" placeholder="Number Plate" required>
+        <input type="number" name="late_days" placeholder="Late Days" required>
+        <button type="submit">Return</button>
+    </form>
+
+    <h2>Bookings</h2>
+    <table>
+        <tr>
+            <th>Vehicle</th>
+            <th>Customer</th>
+            <th>Days</th>
+            <th>Price/Day</th>
+        </tr>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.vehicle }}</td>
+            <td>{{ b.customer }}</td>
+            <td>{{ b.rental_days }}</td>
+            <td>{{ b.price_per_day }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
